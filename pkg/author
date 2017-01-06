@@ -1,0 +1,11 @@
+
+#
+# Author info (used by configure.in and debian scripts)
+#
+
+. ./.package
+
+author_name="$AUTHOR"
+author_email="$EMAIL"
+
+

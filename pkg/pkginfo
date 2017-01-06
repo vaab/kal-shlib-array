@@ -1,0 +1,12 @@
+
+#
+# Used by scripts (configure.in) to propagate version info...
+#
+
+. ./.package
+
+pkg_name="$NAME"
+pkg_version="%%version%%"
+pkg_maturity="alpha"
+pkg_bug_report_email="$AUTHOR_EMAIL"
+

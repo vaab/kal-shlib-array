@@ -1,0 +1,60 @@
+What is kal-shlib-common ?
+==========================
+
+This is part of 'kal-shlib' package, you should see documentation of
+kal-shlib-core for more general information.
+
+
+Requirements
+============
+
+You need a recent version of bash, and this package will require
+``kal-shlib-core``. Note that if you install from debian packages,
+dependencies will be installed automatically.
+
+
+Install
+=======
+
+
+From source
+-----------
+
+Consider this release as Very Alpha. Use at your own risk. It may or may not
+upgrade to a more user friendly version in future, depending on my spare time.
+
+Nethertheless, this package support GNU install quite well so a simple::
+
+    ./configure && make && make install
+
+Should work (and has been tested and is currently used).
+
+Note: you can specify a '--prefix=/your/location'
+
+
+From debian package
+-------------------
+
+A debian package repository is available at:
+
+    deb http://deb.kalysto.org no-dist kal-alpha
+
+you should include this repository to your apt system and then:
+
+    apt-get update && apt-get install kal-shlib-array
+
+
+What does contain this package ?
+---------------------------------
+
+Libraries which are files called 'lib*.sh' installed in
+  $PREFIX/lib/shlib/
+
+The debian package version will install directly to this location
+(knowing that prefix is "/").
+
+
+Usage
+=====
+
+TBD

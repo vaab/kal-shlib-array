@@ -1,0 +1,91 @@
+# -*- mode: shell-script -*-
+
+src_file="../src/lib/libarray.sh"
+
+prefix_cmd="
+. /etc/shlib
+
+source '$src_file'
+"
+
+##
+## member
+##
+
+try "
+a=(a b c)
+array_member a c" "member detects member in normal array"
+noerror
+is out ""
+
+try "
+a=(a b c)
+array_member a x" "member detects outsiders in normal array"
+is errlvl 1
+is out ""
+is err ""
+
+try "
+a=()
+array_member a x" "member detects outsiders in normal empty array"
+is errlvl 1
+is out ""
+is err ""
+
+
+try "
+declare -A a
+a[1]=b
+a[2]=c
+array_member a c" "member detects member in assoc array"
+noerror
+is out ""
+
+try "
+declare -A a
+a[1]=b
+a[2]=c
+array_member a x" "member detects outsiders in normal array"
+is errlvl 1
+is out ""
+is err ""
+
+##
+## pop
+##
+
+try "
+a=(a b c)
+array_pop a x
+declare -p a
+" "pop removes element from normal array"
+noerror
+is out "declare -a a='([1]=\"b\" [2]=\"c\")'" TRIM
+
+try "
+a=(a b c)
+array_pop a x
+echo \"\$x\"
+" "pop gets value poped in variable"
+noerror
+is out "a" TRIM
+
+try "
+declare -A a
+a[foo]=b
+a[bar]=c
+array_pop a x
+declare -p a
+" "pop removes element from normal array"
+noerror
+is out "declare -A a='([foo]=\"b\" )'" TRIM
+
+try "
+declare -A a
+a[foo]=b
+a[bar]=c
+array_pop a x
+echo \"\$x\"
+" "pop gets value poped in variable"
+noerror
+is out "c" TRIM
