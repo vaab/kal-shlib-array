@@ -1,0 +1,5 @@
+NAME="kal-shlib-array"
+DESCRIPTION="Array Shell lib helpers"
+EMAIL="valentin.lab@kalysto.org"
+AUTHOR="Valentin Lab"
+AUTHOR_EMAIL="$AUTHOR <$EMAIL>"
