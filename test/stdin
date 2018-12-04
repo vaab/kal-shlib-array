@@ -1,0 +1,86 @@
+# -*- mode: shell-script -*-
+
+src_file="../src/lib/libarray.sh"
+
+prefix_cmd="
+. /etc/shlib
+
+source '$src_file'
+"
+
+
+##
+## array_values_to_stdin
+##
+
+try "
+a=(a b c)
+array_values_to_stdin a | tr '\0' ':'
+" "normal array values to stdin"
+noerror
+is out "a:b:c:" TRIM
+
+try "
+a=('a b' c)
+array_values_to_stdin a | tr '\0' ':'
+" "normal array values with space to stdin"
+noerror
+is out "a b:c:" TRIM
+
+try "
+declare -A a
+a[foo]=a
+a[bar]=b
+a[wiz]=c
+array_values_to_stdin a | tr '\0' ':'
+" "associative array values to stdin"
+noerror
+is out "c:b:a:" TRIM
+
+try "
+declare -A a
+a[foo]='a b'
+a[wiz]=c
+array_values_to_stdin a | tr '\0' ':'
+" "associative array values with spaces to stdin"
+noerror
+is out "c:a b:" TRIM
+
+
+##
+## array_keys_to_stdin
+##
+
+try "
+a=(a b c)
+array_keys_to_stdin a | tr '\0' ':'
+" "normal array keys to stdin"
+noerror
+is out "0:1:2:" TRIM
+
+try "
+a=('a b' c)
+array_keys_to_stdin a | tr '\0' ':'
+" "normal array keys with spaces to stdin"
+noerror
+is out "0:1:" TRIM
+
+try "
+declare -A a
+a[foo]=a
+a[bar]=b
+a[wiz]=c
+array_keys_to_stdin a | tr '\0' ':'
+" "associative array keys to stdin"
+noerror
+is out "wiz:bar:foo:" TRIM
+
+try "
+declare -A a
+a[foo bar]='a b'
+a[wiz]=c
+array_keys_to_stdin a | tr '\0' ':'
+" "associative array keys with spaces to stdin"
+noerror
+is out "wiz:foo bar:" TRIM
+

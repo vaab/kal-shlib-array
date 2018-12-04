@@ -17,7 +17,7 @@ try "
 a=(a b c)
 array_pop a x
 declare -p a
-" "pop removes element from normal array"
+" "element popped removed from normal array"
 noerror
 is out "declare -a a='([1]=\"b\" [2]=\"c\")'" TRIM
 
@@ -25,7 +25,7 @@ try "
 a=(a b c)
 array_pop a x
 echo \"\$x\"
-" "pop gets value poped in variable"
+" "pop normal arraygets value poped in variable"
 noerror
 is out "a" TRIM
 
@@ -35,7 +35,7 @@ a[foo]=b
 a[bar]=c
 array_pop a x
 declare -p a
-" "pop removes element from normal array"
+" "element popped removed from associative array"
 noerror
 is out "declare -A a='([foo]=\"b\" )'" TRIM
 
@@ -45,6 +45,65 @@ a[foo]=b
 a[bar]=c
 array_pop a x
 echo \"\$x\"
-" "pop gets value poped in variable"
+" "pop associative array gets value poped in variable"
 noerror
 is out "c" TRIM
+
+
+
+try "
+a=('a b' c)
+array_pop a x
+declare -p a
+" "element with space popped removed from normal array"
+noerror
+is out "declare -a a='([1]=\"c\")'" TRIM
+
+try "
+a=('a b' c)
+array_pop a x
+echo \"\$x\"
+" "pop normal array gets value with space in variable"
+noerror
+is out "a b" TRIM
+
+try "
+declare -A a
+a[foo]='a b'
+a[bar]=c
+array_pop a x
+declare -p a
+" "element with spaces popped removed from associative array"
+noerror
+is out "declare -A a='([foo]=\"a b\" )'" TRIM
+
+try "
+declare -A a
+a[foo]='a b'
+a[bar]=c
+array_pop a x
+echo \"\$x\"
+" "pop associative array gets value poped in variable"
+noerror
+is out "c" TRIM
+
+
+try "
+declare -A a
+a[foo]=b
+a[bar]='c a'
+array_pop a x
+declare -p a
+" "element with spaces popped removed from associative array"
+noerror
+is out "declare -A a='([foo]=\"b\" )'" TRIM
+
+try "
+declare -A a
+a[foo]=b
+a[bar]='c a'
+array_pop a x
+echo \"\$x\"
+" "pop associative array gets value poped in variable"
+noerror
+is out "c a" TRIM
