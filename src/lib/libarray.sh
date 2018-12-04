@@ -1,6 +1,18 @@
 ## Begin libarray.sh
 
 
+array_read-0() {
+    local elt
+    while true; do
+        for a_name in "$@"; do
+            declare -n cur="$a_name"
+            elt="$(next-0)" || return 0
+            cur+=("$elt")
+        done
+    done
+}
+
+
 array_values_to_stdin() {
     local e
     if [ "$#" -ne "1" ]; then
