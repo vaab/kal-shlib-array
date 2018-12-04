@@ -61,7 +61,8 @@ array_member() {
     src="$1"
     elt="$2"
     while read-0 key; do
-        if [ "$(eval "echo -n \"\${$src[\$key]}\"")" == "$elt" ]; then
+        vname="$src[$key]"
+        if [ "${!vname}" == "$elt" ]; then
             return 0
         fi
     done < <(array_keys_to_stdin "$src")
