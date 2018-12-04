@@ -8,47 +8,6 @@ prefix_cmd="
 source '$src_file'
 "
 
-##
-## member
-##
-
-try "
-a=(a b c)
-array_member a c" "member detects member in normal array"
-noerror
-is out ""
-
-try "
-a=(a b c)
-array_member a x" "member detects outsiders in normal array"
-is errlvl 1
-is out ""
-is err ""
-
-try "
-a=()
-array_member a x" "member detects outsiders in normal empty array"
-is errlvl 1
-is out ""
-is err ""
-
-
-try "
-declare -A a
-a[1]=b
-a[2]=c
-array_member a c" "member detects member in assoc array"
-noerror
-is out ""
-
-try "
-declare -A a
-a[1]=b
-a[2]=c
-array_member a x" "member detects outsiders in normal array"
-is errlvl 1
-is out ""
-is err ""
 
 ##
 ## pop
