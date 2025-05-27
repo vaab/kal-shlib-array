@@ -35,7 +35,7 @@ a[wiz]=c
 array_values_to_stdin a | tr '\0' ':'
 " "associative array values to stdin"
 noerror
-is out "c:b:a:" TRIM
+is out "a:b:c:" TRIM
 
 try "
 declare -A a
@@ -44,7 +44,7 @@ a[wiz]=c
 array_values_to_stdin a | tr '\0' ':'
 " "associative array values with spaces to stdin"
 noerror
-is out "c:a b:" TRIM
+is out "a b:c:" TRIM
 
 
 ##
@@ -73,7 +73,7 @@ a[wiz]=c
 array_keys_to_stdin a | tr '\0' ':'
 " "associative array keys to stdin"
 noerror
-is out "wiz:bar:foo:" TRIM
+is out "foo:bar:wiz:" TRIM
 
 try "
 declare -A a
@@ -82,5 +82,5 @@ a[wiz]=c
 array_keys_to_stdin a | tr '\0' ':'
 " "associative array keys with spaces to stdin"
 noerror
-is out "wiz:foo bar:" TRIM
+is out "foo bar:wiz:" TRIM
 

@@ -6,6 +6,8 @@ prefix_cmd="
 . /etc/shlib
 
 source '$src_file'
+
+include parse  ## access to read-0
 "
 
 ##

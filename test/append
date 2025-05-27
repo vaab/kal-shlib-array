@@ -6,6 +6,8 @@ prefix_cmd="
 . /etc/shlib
 
 source '$src_file'
+
+include parse  ## access to next-0
 "
 
 ##
@@ -18,7 +20,7 @@ declare -a | grep 'a='
 " "read in one array"
 noerror
 is out "\
-declare -a a='([0]=\"a\" [1]=\"b\" [2]=\"c\" [3]=\"d\" [4]=\"e\" [5]=\"f\")'
+declare -a a=([0]=\"a\" [1]=\"b\" [2]=\"c\" [3]=\"d\" [4]=\"e\" [5]=\"f\")
 "
 
 
@@ -30,7 +32,7 @@ declare -a | grep 'a='
 " "append in one array"
 noerror
 is out "\
-declare -a a='([0]=\"1\" [1]=\"2\" [2]=\"a\" [3]=\"b\" [4]=\"c\" [5]=\"d\" [6]=\"e\" [7]=\"f\")'
+declare -a a=([0]=\"1\" [1]=\"2\" [2]=\"a\" [3]=\"b\" [4]=\"c\" [5]=\"d\" [6]=\"e\" [7]=\"f\")
 "
 
 
@@ -40,8 +42,8 @@ declare -a | egrep '(a|b)='
 " "read in two array"
 noerror
 is out "\
-declare -a a='([0]=\"a\" [1]=\"c\" [2]=\"e\")'
-declare -a b='([0]=\"b\" [1]=\"d\" [2]=\"f\")'
+declare -a a=([0]=\"a\" [1]=\"c\" [2]=\"e\")
+declare -a b=([0]=\"b\" [1]=\"d\" [2]=\"f\")
 "
 
 
@@ -53,7 +55,7 @@ declare -a | egrep '(a|b)='
 " "read in two array"
 noerror
 is out "\
-declare -a a='([0]=\"1\" [1]=\"2\" [2]=\"3\" [3]=\"a\" [4]=\"c\" [5]=\"e\")'
-declare -a b='([0]=\"x\" [1]=\"y\" [2]=\"b\" [3]=\"d\" [4]=\"f\")'
+declare -a a=([0]=\"1\" [1]=\"2\" [2]=\"3\" [3]=\"a\" [4]=\"c\" [5]=\"e\")
+declare -a b=([0]=\"x\" [1]=\"y\" [2]=\"b\" [3]=\"d\" [4]=\"f\")
 "
 
