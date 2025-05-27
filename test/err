@@ -1,0 +1,51 @@
+# -*- mode: shell-script -*-
+
+src_file="../src/lib/libarray.sh"
+
+prefix_cmd="
+. /etc/shlib
+
+source '$src_file'
+
+include parse  ## access to next-0
+"
+
+##
+## array_read-0
+##
+
+try "
+array_read-0-err E a < <(p-err false)
+declare -p E
+declare -p a 2>&1 || true
+" "read but capture error"
+noerror
+is out "\
+declare -- E=\"1\"
+bash: line 10: declare: a: not found
+"
+
+try "
+array_read-0-err E a < <(p-err printf '%s\0' a b c)
+declare -p E
+declare -p a
+" "read in one array"
+noerror
+is out "\
+declare -- E=\"0\"
+declare -a a=([0]=\"a\" [1]=\"b\" [2]=\"c\")
+"
+
+try "
+array_read-0-err E a b < <(p-err printf '%s\0' a b c) 2>&1
+declare -p E
+declare -p a
+declare -p b
+" "read in two arrays not enough values"
+noerror
+is out "\
+Error: array_read-0-err couldn't fill all value
+declare -- E=\"127\"
+declare -a a=([0]=\"a\" [1]=\"c\")
+declare -a b=([0]=\"b\")
+"

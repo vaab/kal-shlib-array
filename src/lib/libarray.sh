@@ -12,6 +12,46 @@ array_read-0() {
     done
 }
 
+array_read-0-err() {
+    local elt aname last eof
+    local ret="$1"
+    shift
+    while true; do
+        idx=0
+        for aname in "$@"; do
+            last=$idx
+
+            declare -n cur="$aname"
+            IFS='' read -r -d '' elt || {
+                eof="elt"
+                read -r -d '' -- "$ret" <<<"${!eof}"
+                break 2
+            }
+            last="$elt"
+            cur+=("$elt")
+            ((idx++))
+        done
+    done
+    [ -z "$eof" ] || {
+        if [ "$last" != 0 ]; then
+            echo "Error: ${FUNCNAME[0]} couldn't fill all value" >&2
+            read -r -- "$ret" <<<"127"
+        else
+            if [ -z "${!ret}" ]; then
+                echo "Error: last value is empty, did you finish with an errorlevel ?" >&2
+                read -r -- "$ret" <<<"126"
+            elif ! [[ "${!ret}" =~ ^[0-9]+$ ]]; then
+                echo "Error: last value is not a number (is '${!ret}'), did you finish with an errorlevel ?" >&2
+                read -r -- "$ret" <<<"125"
+            fi
+        fi
+        false
+    }
+
+}
+
+
+
 
 array_values_to_stdin() {
     local var="$1" e aname
